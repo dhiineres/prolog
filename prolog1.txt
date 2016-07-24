@@ -1,30 +1,29 @@
-homem(norberto).
-homem(pierre).
-homem(bruno).
-
 mulher(ursula).
 mulher(berta).
+homem(pierre).
+homem(bruno).
+homem(norberto).
 
-bonita(ursula).
+bonito(ursula).
 bonito(norberto).
 bonito(pierre).
 
-
-rica(berta).
+rico(berta).
 rico(norberto).
 
 forte(berta).
-forte(pierre).      
+forte(pierre).
 forte(bruno).
 
 amavel(bruno).
 
-gosta(X, Y):-homem(X), bonita(Y).
-gosta(X, Y):-X=berta, homem(Y), gosta(Y, X).
-gosta(X, Y):-X=ursula, gosta(Y, X),
-    homem(Y), (   rico(Y), amavel(Y); forte(Y), bonito(Y)).
+gosta(X, Y):-homem(X), mulher(Y), bonito(Y).
+gosta(berta, Y):-homem(Y), gosta(Y, berta).
+gosta(ursula, Y):-homem(Y), gosta(Y, ursula),
+    (   rico(Y), amavel(Y);
+    	bonito(Y), forte(Y)).
 
-feliz(X):-homem(X), rico(X).
 feliz(X):-gosta(X, Y), gosta(Y, X).
+feliz(X):-homem(X), rico(X).
 
 

@@ -1,0 +1,60 @@
+mae(ana, eva).
+mae(eva, noe).
+mae(bia, rai).
+mae(bia, clo).
+mae(bia, ary).
+mae(lia, gal).
+
+pai(ivo, eva).
+pai(rai, noe).
+pai(gil, rai).
+pai(gil, clo).
+pai(gil, ary).
+pai(ary, gal).
+
+mulher(ana).
+mulher(bia).
+mulher(eva).
+mulher(clo).
+mulher(lia).
+mulher(gal).
+
+homem(ivo).
+homem(gil).
+homem(rai).
+homem(ary).
+homem(noe).
+
+casal(ana, ivo).
+casal(bia, gil).
+casal(eva, rai).
+casal(lia, ary).
+casal(ivo, ana).
+casal(gil, bia).
+casal(rai, eva).
+casal(ary, lia).
+
+gerou(X, Y):-pai(X, Y); mae(X, Y).
+
+filho(X, Y):-homem(X), gerou(Y, X).
+filha(X, Y):-mulher(X), gerou(Y, X).
+irmao(X, Y):-homem(X), mae(Z, X), mae(Z, Y), X\==Y.
+irma(X, Y):-mulher(X), mae(Z, X), mae(Z, Y), X\==Y.
+tio(X, Y):-irmao(X, Z), gerou(Z, Y);
+    cunhado(X, Z), gerou(Z, Y).
+tia(X, Y):-irma(X, Z), gerou(Z, Y);
+    cunhada(X, Z), gerou(Z, Y).
+sobrinho(X, Y):-homem(X), (tia(Y, X);tio(Y, X)).
+sobrinha(X, Y):-mulher(X), (tia(Y, X);tio(Y, X)).
+primo(X, Y):-homem(X), pai(Z, X), tio(Z, Y).
+prima(X, Y):-mulher(X), pai(Z, X), tio(Z, Y).
+avom(X, Y):-pai(X, Z), gerou(Z, Y).
+avof(X, Y):-mae(X, Z), gerou(Z, Y).
+cunhado(X, Y):-homem(X), casal(X, Z),
+    gerou(W, Z), gerou(W, Y);
+	homem(X), casal(Y, Z),
+    gerou(W, X), gerou(W, Z).
+cunhada(X, Y):-mulher(X), casal(X, Z),
+    gerou(W, Z), gerou(W, Y);
+	mulher(X), casal(Y, Z),
+    gerou(W, X), gerou(W, Z).
