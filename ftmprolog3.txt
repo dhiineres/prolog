@@ -40,21 +40,17 @@ filho(X, Y):-homem(X), gerou(Y, X).
 filha(X, Y):-mulher(X), gerou(Y, X).
 irmao(X, Y):-homem(X), mae(Z, X), mae(Z, Y), X\==Y.
 irma(X, Y):-mulher(X), mae(Z, X), mae(Z, Y), X\==Y.
-tio(X, Y):-irmao(X, Z), gerou(Z, Y);
-    cunhado(X, Z), gerou(Z, Y).
-tia(X, Y):-irma(X, Z), gerou(Z, Y);
-    cunhada(X, Z), gerou(Z, Y).
-sobrinho(X, Y):-homem(X), (tia(Y, X);tio(Y, X)).
-sobrinha(X, Y):-mulher(X), (tia(Y, X);tio(Y, X)).
-primo(X, Y):-homem(X), pai(Z, X), tio(Z, Y).
-prima(X, Y):-mulher(X), pai(Z, X), tio(Z, Y).
-avom(X, Y):-pai(X, Z), gerou(Z, Y).
-avof(X, Y):-mae(X, Z), gerou(Z, Y).
-cunhado(X, Y):-homem(X), casal(X, Z),
-    gerou(W, Z), gerou(W, Y);
-	homem(X), casal(Y, Z),
-    gerou(W, X), gerou(W, Z).
-cunhada(X, Y):-mulher(X), casal(X, Z),
-    gerou(W, Z), gerou(W, Y);
-	mulher(X), casal(Y, Z),
-    gerou(W, X), gerou(W, Z).
+tio(X, Y):- irmao(X, Z), gerou(Z, Y);
+    		casal(X, Z), irma(Z, W), gerou(W, Y).
+tia(X, Y):- irma(X, Z), gerou(Z, Y);
+    		casal(X, Z), irmao(Z, W), gerou(W, Y).
+sobrinho(X, Y):- homem(X), (tio(Y, X); tia(Y, X)).
+sobrinha(X, Y):- mulher(X), (tio(Y, X); tia(Y, X)).
+primo(X, Y):- sobrinho(X, Z), mae(Z, Y).
+prima(X, Y):- sobrinha(X, Z), mae(Z, Y).
+avom(X, Y):- pai(X, Z), gerou(Z, Y).
+avof(X, Y):- mae(X, Z), gerou(Z, Y).
+cunhado(X, Y):- casal(X, Z), irma(Z, Y);
+    			irmao(X, Z), casal(Z, Y).
+cunhada(X, Y):- casal(X, Z), irmao(Z, Y);
+    			irma(X, Z), casal(Z, Y).
